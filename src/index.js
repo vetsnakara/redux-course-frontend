@@ -8,4 +8,6 @@ const unsubscribe = store.subscribe(() => {
 
 store.dispatch(actions.bugAdded({ description: "bug 1" }))
 
+store.dispatch(actions.bugResolved({ id: 0 }))
+
 store.dispatch(actions.bugRemoved({ id: 0 }))

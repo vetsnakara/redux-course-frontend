@@ -17,3 +17,12 @@ export function bugRemoved({ id }) {
         },
     }
 }
+
+export function bugResolved({ id }) {
+    return {
+        type: actions.BUG_RESOLVED,
+        payload: {
+            id,
+        },
+    }
+}
