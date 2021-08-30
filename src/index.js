@@ -1,10 +1,7 @@
-import { createStore } from "redux"
-import { devToolsEnhancer } from "redux-devtools-extension"
+import * as actions from "./store/bugs"
+import configureStore from "./store/configureStore"
 
-import { reducer } from "./reducer"
-import * as actions from "./actions"
-
-const store = createStore(reducer, devToolsEnhancer({ trace: true }))
+const store = configureStore()
 
 store.subscribe(() => console.log(store.getState()))
 
