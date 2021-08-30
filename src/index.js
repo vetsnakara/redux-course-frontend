@@ -1,13 +1,12 @@
-import store from "./store"
+import { createStore } from "./customStore"
 
+import { reducer } from "./reducer"
 import * as actions from "./actions"
 
-const unsubscribe = store.subscribe(() => {
-    console.log("Store changed", store.getState())
-})
+const store = createStore(reducer)
 
-store.dispatch(actions.bugAdded({ description: "bug 1" }))
+store.subscribe(() => console.log(store.getState()))
 
-store.dispatch(actions.bugResolved({ id: 0 }))
+store.dispatch(actions.bugAdded({ description: "Bug 1" }))
 
-store.dispatch(actions.bugRemoved({ id: 0 }))
+console.log(store.getState())
