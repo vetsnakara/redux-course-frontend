@@ -3,6 +3,8 @@ import configureStore from "./store/configureStore"
 import * as projectsActions from "./store/projects"
 import * as bugsActions from "./store/bugs"
 
+import { getUnresolvedBugs } from "./store/bugs"
+
 const actions = {
   ...projectsActions,
   ...bugsActions
@@ -22,3 +24,8 @@ store.dispatch(actions.projectAdded({ name: "project 1" }))
 store.dispatch(actions.projectAdded({ name: "project 2" }))
 store.dispatch(actions.projectAdded({ name: "project 3" }))
 store.dispatch(actions.projectRemoved({ id: 0 }))
+
+const x = getUnresolvedBugs(store.getState())
+const y = getUnresolvedBugs(store.getState())
+
+console.log(x === y)
