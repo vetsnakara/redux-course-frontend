@@ -2,17 +2,17 @@ import configureStore from "./store/configureStore"
 
 import * as projectsActions from "./store/projects"
 import * as bugsActions from "./store/bugs"
+import * as usersActions from "./store/users"
 
-import { getUnresolvedBugs } from "./store/bugs"
+import { getBugsAssignedToUser } from "./store/bugs"
 
 const actions = {
-  ...projectsActions,
-  ...bugsActions
+    ...projectsActions,
+    ...bugsActions,
+    ...usersActions,
 }
 
 const store = configureStore()
-
-store.subscribe(() => console.log(store.getState()))
 
 store.dispatch(actions.bugAdded({ description: "Bug 1" }))
 store.dispatch(actions.bugAdded({ description: "Bug 2" }))
@@ -25,7 +25,9 @@ store.dispatch(actions.projectAdded({ name: "project 2" }))
 store.dispatch(actions.projectAdded({ name: "project 3" }))
 store.dispatch(actions.projectRemoved({ id: 0 }))
 
-const x = getUnresolvedBugs(store.getState())
-const y = getUnresolvedBugs(store.getState())
+store.dispatch(actions.userAdded({ name: "John" }))
+store.dispatch(actions.userAdded({ name: "Kostya" }))
 
-console.log(x === y)
+store.dispatch(actions.bugAssigned({ bugId: 0, userId: 0 }))
+
+console.log(getBugsAssignedToUser(0)(store.getState()))
