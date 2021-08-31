@@ -3,6 +3,7 @@ import configureStore from "./store/configureStore"
 import * as projectsActions from "./store/projects"
 import * as bugsActions from "./store/bugs"
 import * as usersActions from "./store/users"
+import * as apiActions from "./store/api"
 
 import { getBugsAssignedToUser } from "./store/bugs"
 
@@ -10,6 +11,7 @@ const actions = {
     ...projectsActions,
     ...bugsActions,
     ...usersActions,
+    ...apiActions,
 }
 
 const store = configureStore()
@@ -30,16 +32,19 @@ store.dispatch(actions.userAdded({ name: "Kostya" }))
 
 store.dispatch(actions.bugAssigned({ bugId: 0, userId: 0 }))
 
-store.dispatch((dispatch, getState) => {
-    console.log("state", getState())
-    dispatch({ type: "bugsReceived", bugs: [1, 2, 3] })
-})
-
 store.dispatch({
     type: "error",
     payload: {
         message: "Some bad happened",
     },
 })
+
+store.dispatch(
+    actions.apiCallBegan({
+        url: "/bugs",
+        onSuccess: "bugsReceived",
+        onError: "specificError",
+    })
+)
 
 console.log(getBugsAssignedToUser(0)(store.getState()))
