@@ -30,4 +30,16 @@ store.dispatch(actions.userAdded({ name: "Kostya" }))
 
 store.dispatch(actions.bugAssigned({ bugId: 0, userId: 0 }))
 
+store.dispatch((dispatch, getState) => {
+    console.log("state", getState())
+    dispatch({ type: "bugsReceived", bugs: [1, 2, 3] })
+})
+
+store.dispatch({
+    type: "error",
+    payload: {
+        message: "Some bad happened",
+    },
+})
+
 console.log(getBugsAssignedToUser(0)(store.getState()))
