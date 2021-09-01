@@ -20,9 +20,9 @@ const slice = createSlice({
             bugs.list.push(action.payload)
         },
         bugResolved: (bugs, action) => {
-            const { id } = action.payload
-            const index = bugs.list.findIndex((bug) => bug.id === id)
-            bugs.list[index].resolved = true
+            const bug = action.payload
+            const index = bugs.list.findIndex(({ id }) => id === bug.id)
+            bugs.list[index] = bug
         },
         bugRemoved: (bugs, action) => {
             const { id } = action.payload
@@ -47,7 +47,7 @@ const slice = createSlice({
     },
 })
 
-export const {
+const {
     bugAdded,
     bugRemoved,
     bugResolved,
@@ -84,6 +84,28 @@ export function addBug(bug) {
         method: "POST",
         data: bug,
         onSuccess: bugAdded.type,
+        onStart: loadingStarted.type,
+        onFinish: loadingFinished.type,
+    })
+}
+
+export function assignBug({ bugId, userId }) {
+    return apiCallBegan({
+        url: `${URL}/${bugId}`,
+        method: "PATCH",
+        data: { userId },
+        onSuccess: bugAssigned.type,
+        onStart: loadingStarted.type,
+        onFinish: loadingFinished.type,
+    })
+}
+
+export function resolveBug({ id }) {
+    return apiCallBegan({
+        url: `${URL}/${id}`,
+        method: "PATCH",
+        data: { resolved: true },
+        onSuccess: bugResolved.type,
         onStart: loadingStarted.type,
         onFinish: loadingFinished.type,
     })
