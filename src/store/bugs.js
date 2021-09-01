@@ -41,16 +41,31 @@ const slice = createSlice({
         bugsReceived: (bugs, action) => {
             bugs.list = action.payload
         },
+        loadingStarted: (bugs) => {
+            bugs.loading = true
+        },
+        loadingFinished: (bugs) => {
+            bugs.loading = false
+        },
     },
 })
 
-export const { bugAdded, bugRemoved, bugResolved, bugAssigned, bugsReceived } =
-    slice.actions
+export const {
+    bugAdded,
+    bugRemoved,
+    bugResolved,
+    bugAssigned,
+    bugsReceived,
+    loadingStarted,
+    loadingFinished,
+} = slice.actions
 
 export function loadBugs() {
     return apiCallBegan({
         url: URL,
         onSuccess: bugsReceived.type,
+        onStart: loadingStarted.type,
+        onFinish: loadingFinished.type,
     })
 }
 
