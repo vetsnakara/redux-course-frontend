@@ -9,8 +9,10 @@ const actions = {
 const store = configureStore()
 
 // UI layer
-store.dispatch(actions.loadBugs())
+// store.dispatch(actions.loadBugs())
 
-setTimeout(() => {
-    store.dispatch(actions.resolveBug({ id: 2 }))
-}, 2000)
+store.dispatch(actions.addBug({ description: "x" }))
+
+// setTimeout(() => {
+//     store.dispatch(actions.resolveBug({ id: 2 }))
+// }, 2000)

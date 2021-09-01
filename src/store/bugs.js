@@ -1,7 +1,6 @@
+import moment from "moment"
 import { actionCreator, createSlice } from "@reduxjs/toolkit"
 import { createSelector } from "reselect"
-
-import moment from "moment"
 
 import { apiCallBegan } from "./api"
 
@@ -77,6 +76,27 @@ export function loadBugs() {
         dispatch(apiAction)
     }
 }
+
+// export function addBug(bug) {
+//     return async (dispatch) => {
+//         try {
+//             dispatch(loadingStarted())
+
+//             const { data } = await axios.request({
+//                 baseURL: "http://localhost:9001/api",
+//                 url: "/bugs",
+//                 method: "POST",
+//                 data: bug,
+//             })
+
+//             dispatch(bugAdded(data))
+//         } catch (error) {
+//             console.log(error)
+//         } finally {
+//             dispatch(loadingFinished())
+//         }
+//     }
+// }
 
 export function addBug(bug) {
     return apiCallBegan({
