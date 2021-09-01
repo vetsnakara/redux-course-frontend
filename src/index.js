@@ -17,8 +17,4 @@ const actions = {
 const store = configureStore()
 
 // UI layer
-store.dispatch(actions.loadBugs())
-
-setTimeout(() => {
-    store.dispatch(actions.loadBugs())
-}, 3000)
+store.dispatch(actions.addBug({ description: "Save bug on server" }))

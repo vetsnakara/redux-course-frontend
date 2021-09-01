@@ -5,9 +5,8 @@ import moment from "moment"
 
 import { apiCallBegan } from "./api"
 
+// todo: place in config file
 const URL = "/bugs"
-
-let lastId = 0
 
 const slice = createSlice({
     name: "bugs",
@@ -18,12 +17,7 @@ const slice = createSlice({
     },
     reducers: {
         bugAdded: (bugs, action) => {
-            bugs.list.push({
-                id: lastId++,
-                description: action.payload.description,
-                resolved: false,
-                userId: null,
-            })
+            bugs.list.push(action.payload)
         },
         bugResolved: (bugs, action) => {
             const { id } = action.payload
@@ -82,6 +76,17 @@ export function loadBugs() {
 
         dispatch(apiAction)
     }
+}
+
+export function addBug(bug) {
+    return apiCallBegan({
+        url: URL,
+        method: "POST",
+        data: bug,
+        onSuccess: bugAdded.type,
+        onStart: loadingStarted.type,
+        onFinish: loadingFinished.type,
+    })
 }
 
 export const getUnresolvedBugs = createSelector(
