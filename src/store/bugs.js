@@ -4,6 +4,8 @@ import { createSelector } from "reselect"
 
 import { apiCallBegan } from "./api"
 
+import config from "../config"
+
 // todo: place in config file
 const URL = "/bugs"
 
@@ -60,11 +62,11 @@ export function loadBugs() {
     return (dispatch, getState) => {
         const { lastFetch } = getState().entities.bugs
 
-        const timeDiff = lastFetch
-            ? moment().diff(moment(lastFetch), "seconds")
-            : null
+        const timeDiff = lastFetch ? moment().diff(moment(lastFetch)) : null
 
-        if (timeDiff && timeDiff < 5) return
+        console.log("timeDiff", timeDiff)
+
+        if (timeDiff !== null && timeDiff < config.cacheInvalidationTime) return
 
         const apiAction = apiCallBegan({
             url: URL,
