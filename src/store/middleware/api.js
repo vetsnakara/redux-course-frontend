@@ -27,9 +27,9 @@ export const api =
             dispatch(actions.apiCallSuccess(response.data))
             // Specific
             if (onSuccess) dispatch({ type: onSuccess, payload: response.data })
-        } catch ({ message }) {
+        } catch (error) {
             // General
-            dispatch(actions.apiCallFailed(message))
+            dispatch(actions.apiCallFailed(error.message))
             // Specific
             if (onError) dispatch({ type: onError, payload: message })
         } finally {

@@ -6,8 +6,8 @@
     "scripts": {
         "start": "webpack-dev-server --config ./webpack.config.js",
         "test": "jest",
-        "test:watch": "jest --watch",
-        "test:coverage": "jest --coverage"
+        "test:watch": "npm run test -- --watch",
+        "test:coverage": "npm run test -- --coverage"
     },
     "keywords": [],
     "author": "Mosh Hamedani",
@@ -33,6 +33,7 @@
         "lodash": "^4.17.21",
         "moment": "^2.29.1",
         "redux": "^4.1.1",
+        "redux-logger": "^3.0.6",
         "reselect": "^4.0.0"
     }
 }

@@ -1,4 +1,4 @@
-export const logger = (type) => (store) => (next) => (action) => {
-    console.log("Logging:", type)
-    next(action)
+export const logger = (store) => (next) => (action) => {
+    console.log("action", action)
+    return next(action)
 }

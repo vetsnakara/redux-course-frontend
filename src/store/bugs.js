@@ -46,7 +46,7 @@ const slice = createSlice({
     },
 })
 
-export const {
+const {
     bugAdded,
     bugRemoved,
     bugResolved,
@@ -56,15 +56,15 @@ export const {
     loadingFinished,
 } = slice.actions
 
-// todo: generalize caching solution to use in different slices
 export function loadBugs() {
     return (dispatch, getState) => {
         const { lastFetch } = getState().entities.bugs
 
-        const timeDiff = moment().diff(moment(lastFetch), "seconds")
+        const timeDiff = lastFetch
+            ? moment().diff(moment(lastFetch), "seconds")
+            : null
 
-        // todo: store max diff in config file
-        if (timeDiff < 5) return
+        if (timeDiff && timeDiff < 5) return
 
         const apiAction = apiCallBegan({
             url: URL,
@@ -73,30 +73,9 @@ export function loadBugs() {
             onFinish: loadingFinished.type,
         })
 
-        dispatch(apiAction)
+        return dispatch(apiAction)
     }
 }
-
-// export function addBug(bug) {
-//     return async (dispatch) => {
-//         try {
-//             dispatch(loadingStarted())
-
-//             const { data } = await axios.request({
-//                 baseURL: "http://localhost:9001/api",
-//                 url: "/bugs",
-//                 method: "POST",
-//                 data: bug,
-//             })
-
-//             dispatch(bugAdded(data))
-//         } catch (error) {
-//             console.log(error)
-//         } finally {
-//             dispatch(loadingFinished())
-//         }
-//     }
-// }
 
 export function addBug(bug) {
     return apiCallBegan({
